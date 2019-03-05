@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Feb 27, 2019 at 08:10 AM
+-- Generation Time: Mar 05, 2019 at 06:40 AM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.1.26
 
@@ -33,25 +33,9 @@ CREATE TABLE `t_hasil_quisioner` (
   `kode_klausal` varchar(25) NOT NULL,
   `kode_keamanan` varchar(25) NOT NULL,
   `kode_tujuan` varchar(25) NOT NULL,
-  `point1` int(1) NOT NULL,
-  `point2` int(1) NOT NULL,
-  `point3` int(1) NOT NULL,
-  `point4` int(1) NOT NULL,
-  `point5` int(1) NOT NULL,
-  `point6` int(1) NOT NULL,
-  `point7` int(1) NOT NULL,
-  `point8` int(1) NOT NULL,
-  `point9` int(1) NOT NULL,
-  `point10` int(1) NOT NULL,
+  `point` int(1) NOT NULL,
   `kode_user` int(3) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `t_hasil_quisioner`
---
-
-INSERT INTO `t_hasil_quisioner` (`id`, `kode_klausal`, `kode_keamanan`, `kode_tujuan`, `point1`, `point2`, `point3`, `point4`, `point5`, `point6`, `point7`, `point8`, `point9`, `point10`, `kode_user`) VALUES
-(26, 'A.5', 'A.5.1', 'A.5.1.2', 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 7);
 
 -- --------------------------------------------------------
 
@@ -172,7 +156,10 @@ INSERT INTO `user_access` (`id_user`, `name`, `username`, `email`, `password`, `
 (4, 'Administrator', 'admin', 'admin@spk.com', '85064efb60a9601805dcea56ec5402f7', '1', '2019-02-11 03:17:56', '2019-01-08 10:29:29'),
 (5, 'Tri Rinaldi', 'tririnaldi', 'tri@user.com', 'qwerty12345', '2', '2019-01-08 13:26:09', '2019-01-08 13:26:09'),
 (6, 'Dwi R', 'dwir4', 'dwiramadhan25@yahoo.com', '827ccb0eea8a706c4c34a16891f84e7b', '2', '2019-02-10 21:16:03', '0000-00-00 00:00:00'),
-(7, 'Dwi Romadon', 'Dr', 'd@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '2', '2019-02-19 08:18:20', '0000-00-00 00:00:00');
+(7, 'Dwi Romadon', 'Dr', 'd@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '2', '2019-02-19 08:18:20', '0000-00-00 00:00:00'),
+(8, 'a@gmail.com', 'a@gmail.com', 'a@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', '2', '2019-02-27 12:16:14', '0000-00-00 00:00:00'),
+(9, 'cok', 'cok', 'cok@gmail.com', 'c20ad4d76fe97759aa27a0c99bff6710', '2', '2019-02-27 13:25:55', '0000-00-00 00:00:00'),
+(10, 'h', 'h', 'h@h.com', 'c4ca4238a0b923820dcc509a6f75849b', '2', '2019-02-27 13:28:12', '0000-00-00 00:00:00');
 
 --
 -- Indexes for dumped tables
@@ -222,7 +209,7 @@ ALTER TABLE `user_access`
 -- AUTO_INCREMENT for table `t_hasil_quisioner`
 --
 ALTER TABLE `t_hasil_quisioner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
 
 --
 -- AUTO_INCREMENT for table `t_keamanan`
@@ -252,7 +239,7 @@ ALTER TABLE `t_tujuan`
 -- AUTO_INCREMENT for table `user_access`
 --
 ALTER TABLE `user_access`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
