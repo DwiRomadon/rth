@@ -10,9 +10,10 @@ if(isset($_SESSION['username']) && $_SESSION['level'] == '1'){
 }else{
     echo "<script>alert('Anda tidak diizinkan mengakses halaman ini'); window.location=('http://localhost/ratih/');</script>";
 }
-$klausal    = mysqli_query($con,"select * from t_klausal");
-$keamanan   = mysqli_query($con,"select * from t_keamanan");
-$tujuan     = mysqli_query($con,"select * from t_tujuan");
+$klausal      = mysqli_query($con,"select * from t_klausal");
+$keamanan     = mysqli_query($con,"select * from t_keamanan");
+$tujuan       = mysqli_query($con,"select * from t_tujuan");
+$totResponden = mysqli_query($con,"select count(kode_user) as total from totalresponden");
 ?>
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
@@ -77,51 +78,51 @@ $tujuan     = mysqli_query($con,"select * from t_tujuan");
     </div>
 
     <div class="content">
-        <div class="animated fadeIn">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12">
-                    <div class="card">
-                        <div class="card-header">
-                            <strong class="card-title">Tampilkan Berdasarkan</strong>
-                        </div>
-                        <form action="marturitylevel.php" method="post">
-                            <div class="card-body">
-                                <table id="bootstrap-data-table" class="table table-striped table-bordered">
-                                    <tr>
-                                        <td>
-                                            <select name="kodeklausal" data-placeholder="Pilih Klausal..." class="standardSelect" tabindex="1">
-                                                <option>--Pilih Kode Klausal--</option>
-                                                <option value="" label="default"></option>
-                                                <?php foreach ($klausal as $data){ ?>
-                                                    <option value="<?php echo $data['kode_klausal'];?>"><?php echo $data['kode_klausal']." - ".$data['klausal'];?></option>
-                                                <?php }?>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <select name="kodekeamanan" data-placeholder="Pilih Objektif Kontrol..." class="standardSelect" tabindex="1">
-                                                <option>--Pilih Kode Klausal--</option>
-                                                <option value="" label="default"></option>
-                                                <?php foreach ($keamanan as $data1){ ?>
-                                                    <option value="<?php echo $data1['kode_keamanan'];?>"><?php echo $data1['kode_keamanan']." - ".$data1['keamanan'];?></option>
-                                                <?php }?>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </table>
-                                <div class="text-right">
-                                    <hr>
-                                    <button type="submit" name="submit" class="btn btn-primary btn-sm">
-                                        <i class="fa fa-dot-circle-o"></i> Submit
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+<!--        <div class="animated fadeIn">-->
+<!--            <div class="row">-->
+<!--                <div class="col-xs-12 col-sm-12">-->
+<!--                    <div class="card">-->
+<!--                        <div class="card-header">-->
+<!--                            <strong class="card-title">Tampilkan Berdasarkan</strong>-->
+<!--                        </div>-->
+<!--                        <form action="marturitylevel.php" method="post">-->
+<!--                            <div class="card-body">-->
+<!--                                <table id="bootstrap-data-table" class="table table-striped table-bordered">-->
+<!--                                    <tr>-->
+<!--                                        <td>-->
+<!--                                            <select name="kodeklausal" data-placeholder="Pilih Klausal..." class="standardSelect" tabindex="1">-->
+<!--                                                <option>--Pilih Kode Klausal--</option>-->
+<!--                                                <option value="" label="default"></option>-->
+<!--                                                --><?php //foreach ($klausal as $data){ ?>
+<!--                                                    <option value="--><?php //echo $data['kode_klausal'];?><!--">--><?php //echo $data['kode_klausal']." - ".$data['klausal'];?><!--</option>-->
+<!--                                                --><?php //}?>
+<!--                                            </select>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                    <tr>-->
+<!--                                        <td>-->
+<!--                                            <select name="kodekeamanan" data-placeholder="Pilih Objektif Kontrol..." class="standardSelect" tabindex="1">-->
+<!--                                                <option>--Pilih Kode Klausal--</option>-->
+<!--                                                <option value="" label="default"></option>-->
+<!--                                                --><?php //foreach ($keamanan as $data1){ ?>
+<!--                                                    <option value="--><?php //echo $data1['kode_keamanan'];?><!--">--><?php //echo $data1['kode_keamanan']." - ".$data1['keamanan'];?><!--</option>-->
+<!--                                                --><?php //}?>
+<!--                                            </select>-->
+<!--                                        </td>-->
+<!--                                    </tr>-->
+<!--                                </table>-->
+<!--                                <div class="text-right">-->
+<!--                                    <hr>-->
+<!--                                    <button type="submit" name="submit" class="btn btn-primary btn-sm">-->
+<!--                                        <i class="fa fa-dot-circle-o"></i> Submit-->
+<!--                                    </button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </form>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
 
         <div class="content">
@@ -132,24 +133,20 @@ $tujuan     = mysqli_query($con,"select * from t_tujuan");
                             <div class="card-header">
                                 <strong>Hasil</strong> Maturity Level
                             </div>
-                            <div class="card-body card-block">
-                                <canvas id="barChart"></canvas>
-                            </div>
-                            <?php
-
-                                $atributMaturityLevel = mysqli_query($con,"SELECT COUNT(DISTINCT(`kode_user`)) as totalresponden FROM `t_hasil_quisioner`");
-
-                                $row = mysqli_fetch_array($atributMaturityLevel);
-                                ?>
-                                <p>
-                                    <i class="fa fa-user"></i>
-                                    Total Responden <?php echo $row['totalresponden']?>
-                                </p>
+                            <canvas id="speedChart" width="600" height="400"></canvas>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+
+        <p>
+            <i class="fa fa-user"></i>
+            Total Responden <?php
+            $tot = mysqli_fetch_array($totResponden);
+            echo $tot['total'];
+            ?>
+        </p>
 
         <div class="clearfix"></div>
 
@@ -171,47 +168,107 @@ $tujuan     = mysqli_query($con,"select * from t_tujuan");
 </html>
 <script>
     //bar
+    var speedCanvas = document.getElementById("speedChart");
 
+    Chart.defaults.global.defaultFontFamily = "Lato";
+    Chart.defaults.global.defaultFontSize = 18;
     <?php
+        $totalPoint   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.5'");
+        $row = mysqli_fetch_array($totalPoint);
+        $data = $row['points'];
 
-    if(isset($_POST['kodeklausal']) && isset($_POST['kodekeamanan']))
-    {
-    $kodeklausal  = $_POST['kodeklausal'];
-    $kodekeamanan = $_POST['kodekeamanan'];
-    $atributMaturityLevel = mysqli_query($con,"SELECT (SUM(`point`) / COUNT(kode_klausal)) as maturitylevel 
-                                                          FROM `t_hasil_quisioner` WHERE `kode_klausal`='$kodeklausal' and `kode_keamanan`='$kodekeamanan'");
+        $totalPoint1   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.6'");
+        $row1 = mysqli_fetch_array($totalPoint1);
+        $data1 = $row1['points'];
 
-    $row = mysqli_fetch_array($atributMaturityLevel);
+        $totalPoint2   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.7'");
+        $row2 = mysqli_fetch_array($totalPoint2);
+        $data2 = $row2['points'];
+
+        $totalPoint3   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.8'");
+        $row3 = mysqli_fetch_array($totalPoint3);
+        $data3 = $row3['points'];
+
+        $totalPoint4   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.9'");
+        $row4 = mysqli_fetch_array($totalPoint4);
+        $data4 = $row4['points'];
+
+        $totalPoint5   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.10'");
+        $row5 = mysqli_fetch_array($totalPoint5);
+        $data5 = $row5['points'];
+
+        $totalPoint6   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.11'");
+        $row6 = mysqli_fetch_array($totalPoint6);
+        $data6 = $row6['points'];
+
+        $totalPoint7   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.12'");
+        $row7 = mysqli_fetch_array($totalPoint7);
+        $data7 = $row7['points'];
+
+        $totalPoint8   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.13'");
+        $row8 = mysqli_fetch_array($totalPoint8);
+        $data8 = $row8['points'];
+
+        $totalPoint9   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.14'");
+        $row9 = mysqli_fetch_array($totalPoint9);
+        $data9 = $row9['points'];
+
+        $totalPoint10   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.15'");
+        $row10 = mysqli_fetch_array($totalPoint10);
+        $data10 = $row10['points'];
+
+        $totalPoint11   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.16'");
+        $row11 = mysqli_fetch_array($totalPoint11);
+        $data11 = $row11['points'];
+
+        $totalPoint12   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.17'");
+        $row12 = mysqli_fetch_array($totalPoint12);
+        $data12 = $row12['points'];
+
+        $totalPoint13   = mysqli_query($con,"SELECT SUM(`point`) as points FROM `t_hasil_quisioner` WHERE `kode_klausal`='A.18'");
+        $row13 = mysqli_fetch_array($totalPoint13);
+        $data13 = $row13['points'];
+
+
     ?>
+    var speedData = {
+        labels: ["A.5", "A.6", "A.7", "A.8", "A.9", "A.10", "A.11", "A.12", "A.13", "A.14", "A.15", "A.16", "A.17", "A.18"],
+        datasets: [{
+            label: "Point dari jawaban user perklausal",
+            data: [<?php echo $data;?>, <?php echo $data1;?>, <?php echo $data2;?>, <?php echo $data3;?>, <?php echo $data4;?>, <?php echo $data5;?>, <?php echo $data6;?>,
+                <?php echo $data7;?>, <?php echo $data8;?>, <?php echo $data9;?>, <?php echo $data10;?>, <?php echo $data11;?>, <?php echo $data12;?>,
+                <?php echo $data13;?>
+            ],
+            lineTension: 0,
+            fill: false,
+            borderColor: 'orange',
+            backgroundColor: 'transparent',
+            borderDash: [5, 5],
+            pointBorderColor: 'orange',
+            pointBackgroundColor: 'rgba(255,150,0,0.5)',
+            pointRadius: 5,
+            pointHoverRadius: 10,
+            pointHitRadius: 30,
+            pointBorderWidth: 2,
+            pointStyle: 'rectRounded'
+        }]
+    };
 
-    var ctxB = document.getElementById("barChart").getContext('2d');
-    var myBarChart = new Chart(ctxB, {
-        type: 'bar',
-        data: {
-            labels: ["Maturity Level"],
-            datasets: [{
-                label: '# Data',
-                data: [<?php echo $row["maturitylevel"] ?>],
-                backgroundColor: [
-                    'rgba(54, 162, 235, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(54, 162, 235, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
-                }]
+    var chartOptions = {
+        legend: {
+            display: true,
+            position: 'top',
+            labels: {
+                boxWidth: 50,
+                fontColor: 'black'
             }
         }
-    });
+    };
 
-    <?php }?>
+    var lineChart = new Chart(speedCanvas, {
+        type: 'line',
+        data: speedData,
+        options: chartOptions
+    });
 
 </script>

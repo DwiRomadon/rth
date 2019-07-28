@@ -32,6 +32,7 @@ if(isset($login)){
                 $_SESSION['level']    = $r['level'];
                 $_SESSION['create']   = $r['created_at'];
                 $_SESSION['id']       = $r['id_user'];
+                $_SESSION['id_jabatan']  = $r['id_jabatan'];
                 header("location:http://".$_SERVER['HTTP_HOST'].'/ratih/user');
             }
         }else{

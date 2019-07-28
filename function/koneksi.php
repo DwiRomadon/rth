@@ -2,7 +2,7 @@
 
 $db_host = "localhost";
 $db_user = "root";
-$db_pass = "";
+$db_pass = "12345";
 $db_name = "skripsi_desktop_spk_ratih";
 
 //create PDO connection

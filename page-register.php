@@ -1,3 +1,8 @@
+
+<?php
+require_once("function/koneksi.php");
+$jabatan    = mysqli_query($con,"select * from t_jabatan");?>
+
 <!doctype html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
@@ -11,7 +16,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="images/favicon.png">
-    <link rel="shortcut icon" href="images/favicon.png"> 
+    <link rel="shortcut icon" href="images/favicon.png">
 
     <link rel="stylesheet" href="assets/css/normalize.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -48,6 +53,16 @@
                         <div class="form-group">
                             <label>Email address</label>
                             <input type="email" name="email" class="form-control" placeholder="Email">
+                        </div>
+                        <div class="form-group">
+                            <label>Jabatan</label>
+                            <select name="jabatan" class="form-control" tabindex="1">
+                                <option>--Pilih Jabatan--</option>
+                                <?php foreach ($jabatan as $data){ ?>
+                                    <option value="<?php echo $data['id'];?>"><?php echo $data['nama'];?></option>
+
+                                <?php }?>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Password</label>

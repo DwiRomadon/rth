@@ -16,13 +16,17 @@ if($datas){
         $name = $_SESSION['name'];
         $email = $_SESSION['email'];
         $iduser   = $_SESSION['id'];
+        $id_jabatan = $_SESSION['id_jabatan'];
     }else{
         echo "<script>alert('Anda tidak diizinkan mengakses halaman ini'); window.location=('http://localhost/ratih/');</script>";
     }
 
-    $klausal    = mysqli_query($con,"select * from t_klausal");
+    $klausal    = mysqli_query($con,"SELECT * FROM `t_klausal` WHERE `id_jabatan`='$id_jabatan'");
     $keamanan   = mysqli_query($con,"select * from t_keamanan");
     $tujuan     = mysqli_query($con,"select * from t_tujuan");
+
+    $jabatan    = mysqli_query($con,"SELECT * FROM `t_jabatan` WHERE `id`='$id_jabatan'");
+    $r = mysqli_fetch_array($jabatan);
 
     ?>
 
@@ -94,11 +98,23 @@ if($datas){
                     <div class="col-xs-12 col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <strong class="card-title">Tampilkan Quisioner Berdasarkan</strong>
+                                <strong class="card-title">Tampilkan Quisioner Berdasarkan Klausal</strong>
                             </div>
                             <form action="postkuisioner.php" method="post">
                                 <div class="card-body">
                                     <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                        <tr>
+                                            <td>
+                                                <div>
+                                                    <label>Nama &nbsp&nbsp&nbsp&nbsp:</label>
+                                                    <label><?php echo $name?></label>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Jabatan &nbsp:</label>
+                                                    <label><?php echo $r['nama']?></label>
+                                                </div>
+                                            </td>
+                                        </tr>
                                         <tr>
                                             <td>
                                                 <select name="kodeklausal" data-placeholder="Pilih Klausal..." class="standardSelect" tabindex="1">

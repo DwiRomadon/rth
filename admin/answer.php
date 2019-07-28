@@ -98,29 +98,6 @@ $tujuan     = mysqli_query($con,"select * from t_tujuan");
                                         </select>
                                     </td>
                                 </tr>
-                                <tr>
-                                    <td>
-                                        <select name="kodekeamanan" data-placeholder="Pilih Objektif Kontrol..." class="standardSelect" tabindex="1">
-                                            <option>--Pilih Kode Klausal--</option>
-                                            <option value="" label="default"></option>
-                                            <?php foreach ($keamanan as $data1){ ?>
-                                                <option value="<?php echo $data1['kode_keamanan'];?>"><?php echo $data1['kode_keamanan']." - ".$data1['keamanan'];?></option>
-                                            <?php }?>
-                                        </select>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <select name="kodetujuan" data-placeholder="Pilih Objektif Kontrol..." class="standardSelect" tabindex="1">
-                                            <option>--Pilih Kode Klausal--</option>
-                                            <option value="" label="default"></option>
-                                            <?php foreach ($tujuan as $data2){ ?>
-                                                <option value="<?php echo $data2['kode_tujuan'];?>"><?php echo $data2['kode_tujuan']." - ".$data2['tujuan'];?></option>
-
-                                            <?php }?>
-                                        </select>
-                                    </td>
-                                </tr>
                             </table>
                             <div class="text-right">
                                 <hr>
@@ -149,21 +126,42 @@ $tujuan     = mysqli_query($con,"select * from t_tujuan");
                         </div>
                         <?php
 
-                        if(isset($_POST['kodeklausal']) && isset($_POST['kodekeamanan']) && isset($_POST['kodetujuan']))
+                        if(isset($_POST['kodeklausal']))
                         {
-                        $kodeklausal  = $_POST['kodeklausal'];
-                        $kodekeamanan = $_POST['kodekeamanan'];
-                        $kodetujuan   = $_POST['kodetujuan'];
-                        $atributMaturityLevel = mysqli_query($con,"SELECT COUNT(kode_tujuan) as totalresponden FROM `t_hasil_quisioner` WHERE 
-                                                                          `kode_klausal`='$kodeklausal' and `kode_keamanan`='$kodekeamanan' and 
-                                                                          `kode_tujuan`='$kodetujuan'");
+                        $kodeklausal          = $_POST['kodeklausal'];
+                        $totalPoint           = mysqli_query($con,"SELECT SUM(point) as totpoint FROM `t_hasil_quisioner` where `kode_klausal`='$kodeklausal'");
+                        $banyakPertanyaan     = mysqli_query($con,"SELECT COUNT(*) as jumlahPertanyaan FROM `t_kuisioner` WHERE `kode_klausal`='$kodeklausal'");
+//                        $atributMaturityLevel = mysqli_query($con,"SELECT COUNT(kode_tujuan) as totalresponden FROM `t_hasil_quisioner` WHERE
+//                                                                          `kode_klausal`='$kodeklausal' and `kode_keamanan`='$kodekeamanan' and
+//                                                                          `kode_tujuan`='$kodetujuan'");
 
-                        $row = mysqli_fetch_array($atributMaturityLevel);
+                        $row = mysqli_fetch_array($totalPoint);
+                        $row2= mysqli_fetch_array($banyakPertanyaan);
+                        $hasil = $row['totpoint']/$row2['jumlahPertanyaan'];
+
+
                         ?>
 
                         <p>
-                            <i class="fa fa-user"></i>
-                            Total Responden <?php echo $row['totalresponden']?>
+                            <i class="fa fa-hand-pointer-o"></i>
+                            Point <?php echo round($hasil, 2)?>
+                            <br>
+                            <i class="fa fa-level-up"></i>
+                            Level Kematangan <?php
+                                if($hasil >= 4.5 && $hasil <=5.00){
+                                    echo "Optimised";
+                                }else if($hasil >= 3.5 && $hasil <=4.49){
+                                    echo "Managed and Measurable";
+                                }else if($hasil >= 2.50 && $hasil <=3.49){
+                                    echo "Defined Process";
+                                }else if($hasil >= 1.50 && $hasil <=2.49){
+                                    echo "Repeatable But Intuitive";
+                                }else if($hasil >= 0.50 && $hasil <=1.49){
+                                    echo "Initial / Ad hoc";
+                                }else if($hasil >= 0 && $hasil <=0.49){
+                                    echo "Non-Exixtent";
+                                }
+                            ?>
                         </p>
                         <?php }?>
                     </div>
@@ -196,16 +194,21 @@ $tujuan     = mysqli_query($con,"select * from t_tujuan");
 
     <?php
 
-    if(isset($_POST['kodeklausal']) && isset($_POST['kodekeamanan']) && isset($_POST['kodetujuan']))
+    if(isset($_POST['kodeklausal']))
     {
-        $kodeklausal  = $_POST['kodeklausal'];
-        $kodekeamanan = $_POST['kodekeamanan'];
-        $kodetujuan   = $_POST['kodetujuan'];
-        $atributMaturityLevel = mysqli_query($con,"SELECT (SUM(point) / COUNT(`kode_klausal`)) as atribut_maturity_level, `kode_klausal` 
-                                                          FROM `t_hasil_quisioner` WHERE `kode_klausal`='$kodeklausal' and `kode_keamanan`='$kodekeamanan' and 
-                                                          `kode_tujuan`='$kodetujuan'");
+    $kodeklausal  = $_POST['kodeklausal'];
 
-        $row = mysqli_fetch_array($atributMaturityLevel);
+    $kodeklausal          = $_POST['kodeklausal'];
+    $totalPoint           = mysqli_query($con,"SELECT SUM(point) as totpoint FROM `t_hasil_quisioner` where `kode_klausal`='$kodeklausal'");
+    $banyakPertanyaan     = mysqli_query($con,"SELECT COUNT(*) as jumlahPertanyaan FROM `t_kuisioner` WHERE `kode_klausal`='$kodeklausal'");
+    //                        $atributMaturityLevel = mysqli_query($con,"SELECT COUNT(kode_tujuan) as totalresponden FROM `t_hasil_quisioner` WHERE
+    //                                                                          `kode_klausal`='$kodeklausal' and `kode_keamanan`='$kodekeamanan' and
+    //                                                                          `kode_tujuan`='$kodetujuan'");
+
+    $row = mysqli_fetch_array($totalPoint);
+    $row2= mysqli_fetch_array($banyakPertanyaan);
+    $hasil = $row['totpoint']/$row2['jumlahPertanyaan'];
+    $keterangan = "haha";
     ?>
 
     var ctxB = document.getElementById("barChart").getContext('2d');
@@ -215,7 +218,7 @@ $tujuan     = mysqli_query($con,"select * from t_tujuan");
             labels: ["Atribut Maturity Level"],
             datasets: [{
                 label: '# Data',
-                data: [<?php echo $row["atribut_maturity_level"] ?>],
+                data: [<?php echo round($hasil, 2) ?>],
                 backgroundColor: [
                     'rgba(255, 99, 132, 0.2)'
                 ],

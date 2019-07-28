@@ -3,17 +3,20 @@ session_start();
 
 if(isset($_SESSION['username']) && $_SESSION['level'] == '2'){
 
-    $username = $_SESSION['username'];
-    $name = $_SESSION['name'];
-    $email = $_SESSION['email'];
-    $iduser   = $_SESSION['id'];
+    $username   = $_SESSION['username'];
+    $name       = $_SESSION['name'];
+    $email      = $_SESSION['email'];
+    $iduser     = $_SESSION['id'];
+    $id_jabatan = $_SESSION['id_jabatan'];
 }else{
     echo "<script>alert('Anda tidak diizinkan mengakses halaman ini'); window.location=('http://localhost/ratih/');</script>";
 }
 require_once("../function/koneksi.php");
 
-$klausal    = mysqli_query($con,"select * from t_klausal");
 
+$klausal    = mysqli_query($con,"SELECT * FROM `t_klausal` WHERE `id_jabatan`='$id_jabatan'");
+$jabatan    = mysqli_query($con,"SELECT * FROM `t_jabatan` WHERE `id`='$id_jabatan'");
+$r = mysqli_fetch_array($jabatan);
 if(isset($_GET['msg']))
 {
     echo "<script type='text/javascript'>
@@ -36,7 +39,7 @@ if(isset($_GET['msg']))
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="apple-touch-icon" href="../images/favicon.png">
-    <link rel="shortcut icon" href="../images/favicon.png"> 
+    <link rel="shortcut icon" href="../images/favicon.png">
 
     <link rel="stylesheet" href="../assets/css/normalize.css">
     <link rel="stylesheet" href="../assets/css/bootstrap.min.css">
@@ -50,13 +53,13 @@ if(isset($_GET['msg']))
     <link rel="stylesheet" href="../assets/css/lib/chosen/chosen.min.css">
 
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800' rel='stylesheet' type='text/css'>
- 
+
 
 </head>
-<body>    
+<body>
 
     <?php include "../views/sidebar-user.php" ?>
-    
+
     <div id="right-panel" class="right-panel">
 
         <?php include "../views/header.php" ?>
@@ -75,7 +78,7 @@ if(isset($_GET['msg']))
                         <div class="page-header float-right">
                             <div class="page-title">
                                 <ol class="breadcrumb text-right">
-                                    <li><a href="#">Extra</a></li>                                    
+                                    <li><a href="#">Extra</a></li>
                                     <li class="active">Kuisioner</li>
                                 </ol>
                             </div>
@@ -91,11 +94,23 @@ if(isset($_GET['msg']))
                     <div class="col-xs-12 col-sm-12">
                         <div class="card">
                             <div class="card-header">
-                                <strong class="card-title">Tampilkan Quisioner Berdasarkan</strong>
+                                <strong class="card-title">Tampilkan Quisioner Berdasarkan Klausal</strong>
                             </div>
                             <form action="postkuisioner.php" method="post">
                             <div class="card-body">
                               <table id="bootstrap-data-table" class="table table-striped table-bordered">
+                                  <tr>
+                                      <td>
+                                          <div>
+                                              <label>Nama &nbsp&nbsp&nbsp&nbsp:</label>
+                                              <label><?php echo $name?></label>
+                                          </div>
+                                          <div class="form-group">
+                                              <label>Jabatan &nbsp:</label>
+                                              <label><?php echo $r['nama']?></label>
+                                          </div>
+                                      </td>
+                                  </tr>
                                   <tr>
                                     <td>
                                         <select name="kodeklausal" data-placeholder="Pilih Klausal..." class="standardSelect" tabindex="1">
@@ -122,7 +137,7 @@ if(isset($_GET['msg']))
             </div>
         </div>
     </div>
-    
+
     <div class="clearfix"></div>
 
     <?php include "../views/footer.php" ?>
