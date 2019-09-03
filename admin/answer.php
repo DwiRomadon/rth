@@ -93,7 +93,7 @@ $tujuan     = mysqli_query($con,"select * from t_tujuan");
                                             <option>--Pilih Kode Klausal--</option>
                                             <option value="" label="default"></option>
                                             <?php foreach ($klausal as $data){ ?>
-                                            <option value="<?php echo $data['kode_klausal'];?>"><?php echo $data['kode_klausal']." - ".$data['klausal'];?></option>
+                                            <option value="<?php echo $data['kode_klausal'].'/'.$data['klausal'];?>"><?php echo $data['kode_klausal']." - ".$data['klausal'];?></option>
                                             <?php }?>
                                         </select>
                                     </td>
@@ -128,42 +128,59 @@ $tujuan     = mysqli_query($con,"select * from t_tujuan");
 
                         if(isset($_POST['kodeklausal']))
                         {
-                        $kodeklausal          = $_POST['kodeklausal'];
-                        $totalPoint           = mysqli_query($con,"SELECT SUM(point) as totpoint FROM `t_hasil_quisioner` where `kode_klausal`='$kodeklausal'");
-                        $banyakPertanyaan     = mysqli_query($con,"SELECT COUNT(*) as jumlahPertanyaan FROM `t_kuisioner` WHERE `kode_klausal`='$kodeklausal'");
-//                        $atributMaturityLevel = mysqli_query($con,"SELECT COUNT(kode_tujuan) as totalresponden FROM `t_hasil_quisioner` WHERE
-//                                                                          `kode_klausal`='$kodeklausal' and `kode_keamanan`='$kodekeamanan' and
-//                                                                          `kode_tujuan`='$kodetujuan'");
+                            $str_arr = explode ("/", $_POST['kodeklausal']);
+                            $kodeklausal          = $str_arr[0];
+                            $namaklausal          = $str_arr[1];
+                            $totalPoint           = mysqli_query($con,"SELECT SUM(point) as totpoint FROM `t_hasil_quisioner` where `kode_klausal`='$kodeklausal'");
+                            $banyakPertanyaan     = mysqli_query($con,"SELECT COUNT(*) as jumlahPertanyaan FROM `t_kuisioner` WHERE `kode_klausal`='$kodeklausal'");
+    //                        $atributMaturityLevel = mysqli_query($con,"SELECT COUNT(kode_tujuan) as totalresponden FROM `t_hasil_quisioner` WHERE
+    //                                                                          `kode_klausal`='$kodeklausal' and `kode_keamanan`='$kodekeamanan' and
+    //                                                                          `kode_tujuan`='$kodetujuan'");
 
-                        $row = mysqli_fetch_array($totalPoint);
-                        $row2= mysqli_fetch_array($banyakPertanyaan);
-                        $hasil = $row['totpoint']/$row2['jumlahPertanyaan'];
+                            $row = mysqli_fetch_array($totalPoint);
+                            $row2= mysqli_fetch_array($banyakPertanyaan);
+                            if(isset($row['totpoint'])!='' && isset($row2['jumlahPertanyaan'])!=''){
+                                $hasil = $row['totpoint']/$row2['jumlahPertanyaan'];
 
-
-                        ?>
-
-                        <p>
-                            <i class="fa fa-hand-pointer-o"></i>
-                            Point <?php echo round($hasil, 2)?>
-                            <br>
-                            <i class="fa fa-level-up"></i>
-                            Level Kematangan <?php
-                                if($hasil >= 4.5 && $hasil <=5.00){
-                                    echo "Optimised";
-                                }else if($hasil >= 3.5 && $hasil <=4.49){
-                                    echo "Managed and Measurable";
-                                }else if($hasil >= 2.50 && $hasil <=3.49){
-                                    echo "Defined Process";
-                                }else if($hasil >= 1.50 && $hasil <=2.49){
-                                    echo "Repeatable But Intuitive";
-                                }else if($hasil >= 0.50 && $hasil <=1.49){
-                                    echo "Initial / Ad hoc";
-                                }else if($hasil >= 0 && $hasil <=0.49){
-                                    echo "Non-Exixtent";
-                                }
                             ?>
-                        </p>
-                        <?php }?>
+
+                            <p>
+                                <i class="fa fa-hand-pointer-o"></i>
+                                <b>Nama Klausal :</b> <?php echo $namaklausal?>
+                                <br>
+                                <i class="fa fa-check"></i>
+                                <b>Point :</b> <?php echo round($hasil, 2)?>
+                                <br>
+                                <i class="fa fa-level-up"></i>
+                                <b>Level Kematangan :</b> <?php
+                                    $keterangan = '';
+                                    if($hasil >= 4.5 && $hasil <=5.00){
+                                        echo $keterangan = "Optimised";
+                                    }else if($hasil >= 3.5 && $hasil <=4.49){
+                                        echo $keterangan = "Managed and Measurable";
+                                    }else if($hasil >= 2.50 && $hasil <=3.49){
+                                        echo $keterangan ="Defined Process";
+                                    }else if($hasil >= 1.50 && $hasil <=2.49){
+                                        echo $keterangan ="Repeatable But Intuitive";
+                                    }else if($hasil >= 0.50 && $hasil <=1.49){
+                                        echo $keterangan = "Initial / Ad hoc";
+                                    }else if($hasil >= 0 && $hasil <=0.49){
+                                        echo $keterangan ="Non-Exixtent";
+                                    }
+                            }
+                                ?>
+                            <br>
+                            <br>
+                            <form target="_blank" method="post" action="laporanpdf.php">
+                            <input type="hidden" name="namaklausal" value="<?php echo $namaklausal?>">
+                            <input type="hidden" name="point" value="<?php echo round($hasil, 2)?>">
+                            <input type="hidden" name="keterangan" value="<?php echo $keterangan?>">
+                            <button type="submit" name="submit" class="btn btn-primary btn-sm">
+                                <i class="fa fa-file-pdf-o"></i> Cetak PDF
+                            </button>
+                            </form>
+                            </p>
+                            <?php }?>
                     </div>
                 </div>
             </div>
@@ -196,49 +213,52 @@ $tujuan     = mysqli_query($con,"select * from t_tujuan");
 
     if(isset($_POST['kodeklausal']))
     {
-    $kodeklausal  = $_POST['kodeklausal'];
+        $str_arr = explode ("/", $_POST['kodeklausal']);
+        $kodeklausal          = $str_arr[0];
+        $namaklausal          = $str_arr[1];
+        $totalPoint           = mysqli_query($con,"SELECT SUM(point) as totpoint FROM `t_hasil_quisioner` where `kode_klausal`='$kodeklausal'");
+        $banyakPertanyaan     = mysqli_query($con,"SELECT COUNT(*) as jumlahPertanyaan FROM `t_kuisioner` WHERE `kode_klausal`='$kodeklausal'");
+        //                        $atributMaturityLevel = mysqli_query($con,"SELECT COUNT(kode_tujuan) as totalresponden FROM `t_hasil_quisioner` WHERE
+        //                                                                          `kode_klausal`='$kodeklausal' and `kode_keamanan`='$kodekeamanan' and
+        //                                                                          `kode_tujuan`='$kodetujuan'");
 
-    $kodeklausal          = $_POST['kodeklausal'];
-    $totalPoint           = mysqli_query($con,"SELECT SUM(point) as totpoint FROM `t_hasil_quisioner` where `kode_klausal`='$kodeklausal'");
-    $banyakPertanyaan     = mysqli_query($con,"SELECT COUNT(*) as jumlahPertanyaan FROM `t_kuisioner` WHERE `kode_klausal`='$kodeklausal'");
-    //                        $atributMaturityLevel = mysqli_query($con,"SELECT COUNT(kode_tujuan) as totalresponden FROM `t_hasil_quisioner` WHERE
-    //                                                                          `kode_klausal`='$kodeklausal' and `kode_keamanan`='$kodekeamanan' and
-    //                                                                          `kode_tujuan`='$kodetujuan'");
+        $row = mysqli_fetch_array($totalPoint);
+        $row2= mysqli_fetch_array($banyakPertanyaan);
+        if(isset($row['totpoint'])!='' && isset($row2['jumlahPertanyaan'])!=''){
 
-    $row = mysqli_fetch_array($totalPoint);
-    $row2= mysqli_fetch_array($banyakPertanyaan);
-    $hasil = $row['totpoint']/$row2['jumlahPertanyaan'];
-    $keterangan = "haha";
-    ?>
+            $hasil = $row['totpoint']/$row2['jumlahPertanyaan'];
 
-    var ctxB = document.getElementById("barChart").getContext('2d');
-    var myBarChart = new Chart(ctxB, {
-        type: 'bar',
-        data: {
-            labels: ["Atribut Maturity Level"],
-            datasets: [{
-                label: '# Data',
-                data: [<?php echo round($hasil, 2) ?>],
-                backgroundColor: [
-                    'rgba(255, 99, 132, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(255,99,132,1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                yAxes: [{
-                    ticks: {
-                        beginAtZero: true
-                    }
+        $keterangan = "haha";
+        ?>
+
+        var ctxB = document.getElementById("barChart").getContext('2d');
+        var myBarChart = new Chart(ctxB, {
+            type: 'bar',
+            data: {
+                labels: ["Atribut Maturity Level"],
+                datasets: [{
+                    label: '# Data',
+                    data: [<?php echo round($hasil, 2) ?>],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255,99,132,1)'
+                    ],
+                    borderWidth: 1
                 }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
             }
-        }
-    });
+        });
 
-    <?php }?>
+    <?php }}?>
 
 </script>
