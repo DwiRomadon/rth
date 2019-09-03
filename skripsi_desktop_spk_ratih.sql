@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jul 31, 2019 at 05:50 AM
+-- Generation Time: Sep 03, 2019 at 05:45 PM
 -- Server version: 10.1.37-MariaDB
 -- PHP Version: 7.1.26
 
@@ -162,28 +162,30 @@ CREATE TABLE `t_klausal` (
   `klausal` varchar(255) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `id_jabatan` int(11) NOT NULL
+  `id_jabatan` int(11) NOT NULL,
+  `penjelasan` varchar(2500) NOT NULL,
+  `rekomendasi` varchar(2500) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `t_klausal`
 --
 
-INSERT INTO `t_klausal` (`id_klausal`, `kode_klausal`, `klausal`, `created_at`, `updated_at`, `id_jabatan`) VALUES
-(1, 'A.5', 'Kebijakan Keamanan Informasi', '2019-07-27 07:34:24', '0000-00-00 00:00:00', 2),
-(2, 'A.6', 'Keamanan Informasi Organisasi', '2019-07-27 07:34:26', '0000-00-00 00:00:00', 2),
-(3, 'A.7', 'Keamanan Sumber Daya Manusia', '2019-07-27 07:34:51', '0000-00-00 00:00:00', 4),
-(4, 'A.8', 'Manajemen Asset', '2019-07-27 07:33:43', '0000-00-00 00:00:00', 1),
-(5, 'A.9', 'Keamanan Logis / Kontrol Akses', '2019-07-27 07:33:46', '0000-00-00 00:00:00', 1),
-(6, 'A.10', 'Kriptografi', '2019-07-27 07:33:50', '0000-00-00 00:00:00', 1),
-(7, 'A.11', 'Keamanan Fisik dan Lingkungan', '2019-07-27 07:33:52', '0000-00-00 00:00:00', 1),
-(8, 'A.12', 'Keamanan Operasi', '2019-07-27 07:34:42', '0000-00-00 00:00:00', 3),
-(9, 'A.13', 'Keamanan Komunikasi ', '2019-07-27 07:34:44', '0000-00-00 00:00:00', 3),
-(10, 'A.14', 'Sistem Akuisisi , Pengembangan, dan Pemeliharaan', '2019-07-27 07:34:09', '0000-00-00 00:00:00', 1),
-(11, 'A.15', 'Hubungan Pemasok', '2019-07-27 07:34:13', '0000-00-00 00:00:00', 1),
-(12, 'A.16', 'Manajemen Insiden Keamanan Informasi', '2019-07-27 07:34:31', '0000-00-00 00:00:00', 2),
-(13, 'A.17', 'Kesinambungan Bisnis', '2019-07-27 07:34:47', '0000-00-00 00:00:00', 3),
-(14, 'A.18', 'Kepatuhan', '2019-07-27 07:34:16', '0000-00-00 00:00:00', 1);
+INSERT INTO `t_klausal` (`id_klausal`, `kode_klausal`, `klausal`, `created_at`, `updated_at`, `id_jabatan`, `penjelasan`, `rekomendasi`) VALUES
+(1, 'A.5', 'Kebijakan Keamanan Informasi', '2019-09-03 15:30:59', '0000-00-00 00:00:00', 2, 'Yang berarti bahwa institusi telah memiliki prosedur baku formal dan tertulis tentang kebijakan keamanan informasi yang telah disosialisasikan kepada seluruh staff untuk dipatuhi.', 'Diharapkan kebijakan akan keamanan informasi berada pada level 4 (manage), yaitu institusi memiliki sejumlah indikator atau ukuran kuantitatif yang dijadikan sebagai sasaran maupun obyektif tentang kebijakan keamanan dari setiap penerapan sistem informasi yang ada.'),
+(2, 'A.6', 'Keamanan Informasi Organisasi', '2019-09-03 15:38:23', '0000-00-00 00:00:00', 2, 'Yang berarti institusi telah memiliki prosedur baku formal dan tertulis tentang organisasi keamanan informasi yang telah disosialisasikan kepada seluruh staff untuk dipatuhi', 'Diharapkan pengelolaan organisasi keamanan informasi berada pada level 4 (manage), yaitu institusi memiliki sejumlah indikator atau ukuran kuantitatif yang dijadikan sebagai sasaran maupun obyektif terhadap organisasi keamanan informasi yang diterapkan pada sistem informasi institusi'),
+(3, 'A.7', 'Keamanan Sumber Daya Manusia', '2019-09-03 15:40:54', '0000-00-00 00:00:00', 4, 'Yang berarti harapan institusi telah terpenuhi karena memiliki sejumlah indikator atau ukuran kuantitatif yang dijadikan sebagai sasaran maupun obyektif tentang kebijakan keamanan dari setiap penerapan sistem informasi yang ada.', ''),
+(4, 'A.8', 'Manajemen Asset', '2019-09-03 15:41:43', '0000-00-00 00:00:00', 1, 'Yang berarti bahwa manajemen mengawasi dan mengukur hal-hal yang telah di penuhi dengan prosedur, serta mengambil tindakan ketika proses tidak berjalan dengan lancar', ''),
+(5, 'A.9', 'Keamanan Logis / Kontrol Akses', '2019-09-03 15:41:52', '0000-00-00 00:00:00', 1, 'Yang berarti harapan institusi telah terpenuhi karena memiliki sejumlah indikator atau ukuran kuantitatif yang dijadikan sebagai sasaran maupun obyektif tentang keamanan logis dan kontrol akses dari setiap penerapan sistem informasi yang ada', ''),
+(6, 'A.10', 'Kriptografi', '2019-09-03 15:42:00', '0000-00-00 00:00:00', 1, 'Yang berarti institusi memiliki sejumlah indikator atau ukuran kuantitatif yang dijadikan sebagai sasaran maupun obyektif terhadap kebijakan kontrol kriptografi yang diterapkan pada sistem informasi', ''),
+(7, 'A.11', 'Keamanan Fisik dan Lingkungan', '2019-09-03 15:42:09', '0000-00-00 00:00:00', 1, 'Yang berarti harapan institusi telah terpenuhi karena memiliki sejumlah indikator atau ukuran kuantitatif yang dijadikan sebagai sasaran maupun obyektif tentang keamanan fisik dan lingkungan dari setiap penerapan sistem informasi yang ada', ''),
+(8, 'A.12', 'Keamanan Operasi', '2019-09-03 15:42:17', '0000-00-00 00:00:00', 3, 'Yang berarti institusi telah memiliki prosedur baku formal dan tertulis tentang keamanan operasi yang telah disosialisasikan kepada seluruh staf untuk dipatuhi.  Rekomendasi : diharapkan keamanan operasi berada pada level 4 (manage and measurable), yaitu institusi memiliki sejumlah indikator atau ukuran kuantitatif yang dijadikan sebagai sasaran maupun obyektif terhadap keamanan operasi yang diterapkan pada sistem informasi institusi.', ''),
+(9, 'A.13', 'Keamanan Komunikasi ', '2019-09-03 15:42:27', '0000-00-00 00:00:00', 3, 'Yang berarti bahwa manajemen mengawasi dan mengukur hal-hal yang telah di penuhi dengan prosedur, serta mengambil tindakan ketika proses tidak berjalan dengan lancar.', ''),
+(10, 'A.14', 'Sistem Akuisisi , Pengembangan, dan Pemeliharaan', '2019-09-03 15:42:52', '0000-00-00 00:00:00', 1, 'Yang berarti bahwa manajemen mengawasi dan mengukur hal-hal yang telah di penuhi dengan prosedur, serta mengambil tindakan ketika proses tidak berjalan dengan efektif.', ''),
+(11, 'A.15', 'Hubungan Pemasok', '2019-09-03 15:43:02', '0000-00-00 00:00:00', 1, 'Yang berarti harapan institusi telah terpenuhi karena memiliki sejumlah indikator atau ukuran kuantitatif yang dijadikan sebagai sasaran maupun obyektif tentang hubungan pemasok dari setiap penerapan sistem informasi yang ada', ''),
+(12, 'A.16', 'Manajemen Insiden Keamanan Informasi', '2019-09-03 15:43:13', '0000-00-00 00:00:00', 2, 'Yaitu institusi memiliki sejumlah indikator atau ukuran kuantitatif yang dijadikan sebagai sasaran maupun obyektif terhadap manajemen insiden keamanan informasi yang diterapkan pada sistem informasi institusi', ''),
+(13, 'A.17', 'Kesinambungan Bisnis', '2019-09-03 15:43:21', '0000-00-00 00:00:00', 3, 'Yang berarti institusi telah memiliki pola yang berulang kali dilakukan dalam pengelolaan bisnis yang berkelanjutan, namun keberadaannya belum terdefinisi secara baik dan formal sehingga masih terjadi ketidakkonsistenan', ''),
+(14, 'A.18', 'Kepatuhan', '2019-09-03 15:43:36', '0000-00-00 00:00:00', 1, 'Yang berarti harapan institusi telah terpenuhi karena memiliki sejumlah indikator atau ukuran kuantitatif yang dijadikan sebagai sasaran maupun obyektif tentang kepatuhan pada kebutuhan bisnis yang diterapkan pada sistem informasi institusi.', '');
 
 -- --------------------------------------------------------
 
@@ -386,13 +388,14 @@ CREATE TABLE `user_access` (
 
 INSERT INTO `user_access` (`id_user`, `name`, `username`, `email`, `password`, `id_jabatan`, `level`, `created_at`, `updated_at`) VALUES
 (13, 'Atox', 'atox', 'atox@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 2, '2', '2019-07-27 02:30:31', '0000-00-00 00:00:00'),
-(14, 'admin', 'admin', 'admin@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 0, '1', '2019-07-27 07:59:00', '0000-00-00 00:00:00'),
+(14, 'admin', 'admin', 'admin@gmail.com', '827ccb0eea8a706c4c34a16891f84e7b', 0, '1', '2019-09-02 13:12:57', '0000-00-00 00:00:00'),
 (15, 'coks', 'coksss', 'coks@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 2, '2', '2019-07-27 04:09:51', '0000-00-00 00:00:00'),
 (16, 'y', 'y', 'y@gmail.com', '415290769594460e2e485922904f345d', 3, '2', '2019-07-28 11:15:00', '0000-00-00 00:00:00'),
 (17, 't', 't', 't@mail.com', 'e358efa489f58062f10dd7316b65649e', 1, '2', '2019-07-28 11:15:53', '0000-00-00 00:00:00'),
 (18, '1', '1', '1@gmail.com', 'c4ca4238a0b923820dcc509a6f75849b', 1, '2', '2019-07-28 11:20:03', '0000-00-00 00:00:00'),
 (19, 'q', 'q', 'q@gmail.com', '7694f4a66316e53c8cdd9d9954bd611d', 4, '2', '2019-07-28 11:25:04', '0000-00-00 00:00:00'),
-(20, 'a', 'a', 'a@gmail.com', '0cc175b9c0f1b6a831c399e269772661', 4, '2', '2019-07-28 11:25:44', '0000-00-00 00:00:00');
+(20, 'a', 'a', 'a@gmail.com', '0cc175b9c0f1b6a831c399e269772661', 4, '2', '2019-07-28 11:25:44', '0000-00-00 00:00:00'),
+(21, '1', '1', '1@gmail.com', 'd41d8cd98f00b204e9800998ecf8427e', 0, '2', '2019-08-13 01:41:19', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -493,7 +496,7 @@ ALTER TABLE `t_tujuan`
 -- AUTO_INCREMENT for table `user_access`
 --
 ALTER TABLE `user_access`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

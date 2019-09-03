@@ -172,9 +172,10 @@ $tujuan     = mysqli_query($con,"select * from t_tujuan");
                             <br>
                             <br>
                             <form target="_blank" method="post" action="laporanpdf.php">
-                            <input type="hidden" name="namaklausal" value="<?php echo $namaklausal?>">
-                            <input type="hidden" name="point" value="<?php echo round($hasil, 2)?>">
-                            <input type="hidden" name="keterangan" value="<?php echo $keterangan?>">
+                                <input type="hidden" name="kodeklausal" value="<?php echo $kodeklausal?>">
+                                <input type="hidden" name="namaklausal" value="<?php echo $namaklausal?>">
+                                <input type="hidden" name="point" value="<?php echo round($hasil, 2)?>">
+                                <input type="hidden" name="keterangan" value="<?php echo $keterangan?>">
                             <button type="submit" name="submit" class="btn btn-primary btn-sm">
                                 <i class="fa fa-file-pdf-o"></i> Cetak PDF
                             </button>
